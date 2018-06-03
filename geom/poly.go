@@ -4,6 +4,9 @@ package geom
 // is connected to the next by an edge, and the final vertex is implicitly
 // connected to the first.
 //
+// A Poly is similar to a LineSegSeq, but differs in that the last point is
+// implicitly connected to the first.
+//
 // A polygon with self-intersecting edges is not well-formed and will produce
 // meaningless results from most operations.
 //
@@ -36,6 +39,16 @@ func (p Poly) Facing() int {
 		return -1
 	}
 	return 1
+}
+
+// Iterator returns an interator over the line segments in the receiving
+// polygon.
+func (p Poly) Iterator() LineSegIterator {
+	return &lineSegSeqIter{
+		seq:    LineSegSeq(p),
+		pos:    -1,
+		closed: true,
+	}
 }
 
 func (p Poly) dirArea() float64 {
