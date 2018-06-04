@@ -123,6 +123,12 @@ const (
 
 //go:generate stringer -type Instruction
 
+// Mnemonic returns the single-character mnemonic that represents this
+// instruction in path strings.
+func (i Instruction) Mnemonic() byte {
+	return byte(i)
+}
+
 func (i Instruction) Absolute() bool {
 	return (i & 0x20) == 0
 }
